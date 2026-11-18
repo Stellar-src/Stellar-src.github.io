@@ -98,6 +98,13 @@ body{background:#f2f1eb}html[data-theme="dark"] body{background:#202834}
 }
 #og-journal .archive-head,#og-journal .entry {border-color:var(--rule);transition:border-color var(--blend) var(--ease)}
 #og-journal .archive-head {border-color:var(--strong-rule)}
+@media (hover:hover) and (pointer:fine) {
+  html {--stellar-pointer:url("./cursor-ink.svg") 2 2}
+  html[data-palette="graphite"],#og-journal[data-theme="dark"] {--stellar-pointer:url("./cursor-paper.svg") 2 2}
+  #og-journal .archive {cursor:var(--stellar-pointer),auto}
+  #og-journal .archive a {cursor:var(--stellar-pointer),pointer}
+}
+#og-journal .all-notes {display:inline-block;margin-top:22px;color:var(--warm-ink);text-underline-offset:.2em}
 #og-journal .recent-note {padding:20px 0;border-bottom:1px solid var(--rule);overflow-wrap:anywhere}
 #og-journal .recent-note .entry {min-height:0;border:0;padding:0;text-decoration:none}
 #og-journal .recent-note .entry:hover strong {text-decoration:underline;text-underline-offset:.2em}

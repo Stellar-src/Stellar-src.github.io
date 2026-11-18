@@ -1,6 +1,6 @@
 """Build the blog from posts/*.md after installing requirements.txt."""
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from html import escape
 from itertools import groupby
 from collections import defaultdict
@@ -9,6 +9,7 @@ from hashlib import sha256
 from urllib.parse import quote, urlsplit, urlunsplit
 import unicodedata
 import re
+import subprocess
 
 import yaml
 from markdown_it import MarkdownIt
@@ -27,6 +28,7 @@ class Post:
     content: str
     headings: list
     updated: datetime | None
+    has_clock: bool
     tags: list[str]
     summary: str
 
@@ -55,7 +57,7 @@ def post_meta(post, prefix):
     parts = []
     if post.updated:
         stamp = post.updated
-        fmt = '%Y-%m-%d %H:%M' if stamp.hour or stamp.minute else '%Y-%m-%d'
+        fmt = '%Y-%m-%d %H:%M' if post.has_clock else '%Y-%m-%d'
         parts.append(f'<time datetime="{stamp.isoformat(timespec="minutes")}">{stamp.strftime(fmt)}</time>')
     parts.extend(f'<a href="{prefix}tags/{quote(tag_folder(t))}/index.html"># {escape(t)}</a>' for t in post.tags)
     return '<div class="post-meta">'+''.join(parts)+'</div>' if parts else ''
@@ -67,13 +69,34 @@ def post_row(post,prefix):
 def archive_date(metadata, path):
     value = (metadata.get('updated', '').strip() or metadata.get('date', '').strip()).strip('"\'')
     if not value:
-        return None
+        return None, False
     for pattern in ('%Y-%m-%d', '%Y-%m-%d %H:%M'):
         try:
-            return datetime.strptime(value, pattern)
+            return datetime.strptime(value, pattern), '%H' in pattern
         except ValueError:
             continue
     raise ValueError(f'{path.name}: expected updated/date as YYYY-MM-DD or YYYY-MM-DD HH:MM')
+
+def post_sort_key(post):
+    stamp = post.updated or datetime.min
+    if not post.updated or post.has_clock:
+        return stamp, 0
+    # Date-only posts can share a day with precisely timed posts.
+    try:
+        result = subprocess.run(
+            ['git','--literal-pathspecs','log','--follow','--diff-filter=A','--format=%ct',
+             '--',f'posts/{post.slug}.md'],
+            cwd=SITE, capture_output=True, text=True, check=True)
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return stamp, 0
+    history = result.stdout.splitlines()
+    if not history:
+        return stamp, 0
+    first_commit = int(history[-1])
+    published = datetime.fromtimestamp(first_commit, timezone(timedelta(hours=8))).replace(tzinfo=None)
+    if published.date() == stamp.date():
+        return published, first_commit
+    return stamp, first_commit
 
 def timeline(posts):
     if not posts:
@@ -139,8 +162,9 @@ def read_post(path):
                 if words:
                     summary=words if len(words)<=85 else words[:84]+'…'
                     break
+    stamp, has_clock = archive_date(metadata,path)
     return Post(path.stem,title,metadata.get('category','手记').strip(),
-                parser.renderer.render(tokens,parser.options,{}),headings,archive_date(metadata,path),
+                parser.renderer.render(tokens,parser.options,{}),headings,stamp,has_clock,
                 tag_list(metadata.get('tags'),path),summary)
 
 def controls():
@@ -193,7 +217,7 @@ def friend_links():
 
 def build():
     posts = [read_post(path) for path in sorted((SITE/'posts').glob('*.md'))]
-    posts.sort(key=lambda post:post.updated or datetime.min,reverse=True)
+    posts.sort(key=post_sort_key,reverse=True)
     for post in posts:
         main = f'''<a class="backlink" href="../../notes/index.html">← 手记</a>
 <article><header><h1 class="page-title">{escape(post.title)}</h1>{post_meta(post,'../../')}<p class="reader-summary">{escape(post.summary)}</p></header>
@@ -213,8 +237,10 @@ def build():
     entries = '\n'.join(
         f'<article class="recent-note"><a class="entry" href="posts/{quote(p.slug)}/index.html">'
         f'<small>{escape(p.category)}</small><strong>{escape(p.title)}</strong><span class="arr" aria-hidden="true">↗</span></a>'
-        f'{post_meta(p,"")}<p class="post-summary">{escape(p.summary)}</p></article>' for p in posts
+        f'{post_meta(p,"")}<p class="post-summary">{escape(p.summary)}</p></article>' for p in posts[:5]
     ) or '<p>还没有手记。</p>'
+    if len(posts) > 5:
+        entries += '\n<a class="all-notes" href="notes/index.html">查看全部手记 →</a>'
     html, count = re.subn(r'(<!-- recent-notes:start -->).*?(<!-- recent-notes:end -->)',lambda m:m[1]+'\n'+entries+'\n'+m[2],html,flags=re.S)
     if count != 1:
         raise ValueError('index.html must contain one recent-notes section')

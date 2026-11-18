@@ -108,8 +108,7 @@ html[data-palette="graphite"] #og-journal .forest-orb {background-image:var(--st
 @media(hover:hover){#og-journal .tag-card:hover {transform:translateY(-2px);color:var(--link)}}
 @media(prefers-reduced-motion:reduce){#og-journal .tag-card {transition:none}}
 @media(hover:hover) and (pointer:fine){
- html {--stellar-pointer:url("cursor-ink.svg") 2 2;cursor:var(--stellar-pointer),auto}
- html[data-palette="graphite"] {--stellar-pointer:url("cursor-paper.svg") 2 2}
+ html {cursor:var(--stellar-pointer),auto}
  #og-journal.inner :is(a,button,summary,label,input[type="radio"]) {cursor:var(--stellar-pointer),pointer}
  #og-journal.inner :is(input:not([type="radio"]),textarea,[contenteditable="true"]) {cursor:text}
 }
