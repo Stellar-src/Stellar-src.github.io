@@ -1,0 +1,119 @@
+html { --page:#f2f1eb; --text:#272a26; --muted:#596055; --line:#cccec2; --tint:#e4e7dc; --link:#76502f; --orb:.52; background:var(--page); color-scheme:light }
+html[data-palette="glacier"] { --page:#eaf0f6; --text:#283544; --muted:#50687a; --line:#c1ceda; --tint:#dce6ef; --link:#395f80 }
+html[data-palette="graphite"] { --page:#2e3440; --text:#eef1f4; --muted:#c0cbd6; --line:#596473; --tint:#394250; --link:#b3d7ed; --orb:.55; color-scheme:dark }
+html[data-palette="white"] { --page:#fff; --text:#252826; --muted:#59635c; --line:#d5dcd6; --tint:#f0f3ef; --link:#386552 }
+body {background:var(--page)}
+#og-journal.inner {--sheet:var(--page);--ink:var(--text);--rule:var(--line); color-scheme:inherit; --subtle:var(--muted); min-height:100svh}
+#og-journal .inner-shell {max-width:1150px;margin:auto}
+#og-journal .inner-top {display:flex;gap:clamp(12px,2vw,30px);align-items:center}
+#og-journal .nav {position:relative;z-index:3}
+#og-journal .navlinks a[aria-current="page"] {text-decoration:underline;text-decoration-color:var(--link);text-decoration-thickness:2px;text-underline-offset:7px}
+#og-journal .palette {position:relative}
+#og-journal .palette summary {list-style:none;display:grid;place-items:center;width:44px;height:44px;cursor:pointer;color:var(--link)}
+#og-journal .palette summary::-webkit-details-marker {display:none}
+#og-journal .palette summary svg {width:24px;height:24px}
+#og-journal .palette fieldset {position:absolute;top:100%;right:0;z-index:6;width:176px;margin:0;padding:5px;background:var(--page);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 26px #10161924}
+#og-journal .palette label {position:relative;display:flex;align-items:center;gap:12px;min-height:44px;padding:6px 10px;border-radius:6px;font:14px/1.4 var(--mono);cursor:pointer}
+#og-journal .palette input {width:1px;height:1px;position:absolute;opacity:0}
+#og-journal .palette label:has(input:checked),#og-journal .palette label:hover {background:var(--tint)}
+#og-journal .palette input:checked ~ .tick::after {content:'✓'}
+#og-journal .tick {margin-left:auto;color:var(--link)}
+#og-journal .palette label:has(input:focus-visible) {outline:2px solid var(--link)}
+#og-journal .swatch {width:15px;height:15px;border-radius:50%;border:1px solid #89919a;background:var(--swatch)}
+#og-journal .page-grid {display:grid;grid-template-columns:minmax(0,1fr) clamp(180px,20vw,242px);gap:clamp(30px,6vw,94px);align-items:start;padding:clamp(36px,6vw,80px) 0 90px}
+@media(min-width:801px){
+ #og-journal .inner-shell:has(.prose) {max-width:1240px}
+ #og-journal .page-grid:has(.prose) {grid-template-columns:minmax(0,1fr) clamp(158px,16vw,220px);column-gap:clamp(28px,4vw,60px)}
+}
+#og-journal .main-column {min-width:0}
+#og-journal .friend-list {list-style:none;margin:20px 0;padding:0}
+#og-journal .friend-list a {display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 20px;padding:16px 0;border-bottom:1px solid var(--line);text-decoration:none;overflow-wrap:anywhere}
+#og-journal .friend-list a span {color:var(--link);font:14px/1.6 var(--mono)}
+#og-journal .friend-list a:hover strong {text-decoration:underline;text-underline-offset:.2em}
+#og-journal .about-copy {font-size:clamp(16px,1.3vw,19px);line-height:1.9;overflow-wrap:anywhere}
+#og-journal .about-copy :is(p,h2,h3,blockquote) {margin:1em 0}
+#og-journal .about-copy img {max-width:100%;height:auto}
+#og-journal .about-copy pre {overflow:auto}
+#og-journal .context-tools {position:fixed;inset:auto;margin:0;padding:5px;max-width:calc(100vw - 12px);background:var(--page);border:1px solid var(--line);border-radius:8px;box-shadow:0 5px 20px #10161924;color:var(--text);cursor:var(--stellar-pointer),auto}
+#og-journal .context-tools :is(button,a) {display:block;width:100%;padding:7px 12px;border-radius:4px;font-family:inherit;font-size:14px;line-height:1.5;text-decoration:none;text-align:left}
+#og-journal .context-tools small {display:block;padding:7px 12px 3px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
+#og-journal .context-tools :is(button,a):is(:hover,:focus-visible) {background:var(--tint)}
+#og-journal .backlink {font-size:14px;color:var(--muted);text-decoration:none}
+#og-journal .backlink:hover {text-decoration:underline}
+#og-journal .page-title {font-weight:650;line-height:1.2;letter-spacing:-.055em;font-size:clamp(34px,4.4vw,64px);margin:22px 0 16px;text-wrap:balance}
+#og-journal .eyeline {color:var(--muted);font:13px/1.7 var(--mono);margin:0 0 34px}
+#og-journal .forest-orb {width:min(100%,205px);aspect-ratio:1;border-radius:50%;background:var(--autumn) center/cover;opacity:var(--orb);mask-image:radial-gradient(circle closest-side at 48% 48%,#000 35%,#000d 72%,#0006 90%,transparent);pointer-events:none}
+html[data-palette="graphite"] #og-journal .forest-orb {background-image:var(--steel)}
+#og-journal .rail {position:sticky;top:24px;display:grid;gap:24px}
+#og-journal .toc {border-top:1px solid var(--line);padding-top:16px}
+#og-journal .toc h2 {font-size:14px}
+#og-journal .toc ul {list-style:none;padding:0;margin:10px 0}
+#og-journal .toc a {display:block;padding:5px 0;color:var(--muted);font-size:14px;text-decoration:none}
+#og-journal .toc a:hover {color:var(--link);text-decoration:underline}
+#og-journal .prose {font-size:clamp(16px,1.3vw,19px);line-height:1.95;overflow-wrap:anywhere}
+#og-journal .prose p {margin:1em 0}
+#og-journal .prose h2,#og-journal .prose h3 {margin:1.75em 0 .5em;line-height:1.4;scroll-margin-top:24px}
+#og-journal .prose h2 {font-size:1.45em}
+#og-journal .prose a {color:var(--link);text-underline-offset:3px}
+#og-journal .prose img {display:block;max-width:100%;height:auto;max-height:420px;object-fit:cover}
+#og-journal .prose blockquote,#og-journal .prose pre {background:var(--tint);margin:1.2em 0;padding:12px 20px}
+#og-journal .prose blockquote {border-inline-start:3px solid var(--link)}
+#og-journal .prose blockquote p {margin:0}
+#og-journal .prose pre {overflow:auto;font:14px/1.65 var(--mono)}
+#og-journal .prose :not(pre)>code {background:var(--tint);color:var(--link);padding:.1em .25em}
+#og-journal .prose table {display:block;overflow:auto;border-collapse:collapse}
+#og-journal .prose th,#og-journal .prose td {border:1px solid var(--line);padding:.4em .7em}
+#og-journal.inner {--line:inherit}
+#og-journal .post-row {padding:22px 0 24px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+#og-journal .post-name {display:inline-block;font-size:clamp(19px,2vw,25px);font-weight:650;line-height:1.45;letter-spacing:-.035em;text-decoration:none}
+#og-journal .post-name:hover,#og-journal .post-meta a:hover {color:var(--link);text-decoration:underline;text-underline-offset:.23em}
+#og-journal .post-meta {display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 15px;margin:7px 0;color:var(--muted);font:13px/1.7 var(--mono)}
+#og-journal .post-meta time {font-variant-numeric:tabular-nums}
+#og-journal .post-meta a {color:var(--link);text-decoration:none}
+#og-journal :is(.post-summary,.reader-summary) {color:var(--muted);line-height:1.8;font-size:15px}
+#og-journal .reader-summary {padding:4px 0 20px}
+#og-journal :is(.post-summary,.reader-summary):empty {display:none}
+#og-journal .toc .toc-top {border-top:1px solid var(--line);padding:12px 0;color:var(--link)}
+#og-journal .timeline {margin-left:5px;padding-left:clamp(22px,4vw,52px);border-left:1px solid var(--line)}
+#og-journal .archive-year {position:relative;padding-bottom:36px}
+#og-journal .archive-year::before {content:"";position:absolute;left:calc(-1 * clamp(22px,4vw,52px) - 5px);top:15px;width:9px;height:9px;border-radius:50%;background:var(--link);outline:4px solid var(--page)}
+#og-journal .archive-year h2 {font:500 clamp(33px,4vw,48px)/1 Georgia,serif;letter-spacing:-.04em}
+#og-journal .archive-year sup {color:var(--muted);font:12px/1 var(--mono);letter-spacing:0;vertical-align:super}
+#og-journal .month-block {display:grid;grid-template-columns:clamp(72px,9vw,110px) minmax(0,1fr);gap:12px;margin-top:24px}
+#og-journal .month-block h3 {font-size:16px;font-weight:600;padding-top:4px}
+#og-journal .month-block .post-row:first-child {padding-top:0}
+#og-journal .month-block .post-name {font-size:clamp(18px,1.6vw,22px)}
+#og-journal .tag-gallery {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 24px;max-width:720px;padding-top:16px}
+#og-journal .tag-card {display:block;min-width:0;text-decoration:none;transition:transform .18s ease}
+#og-journal .tag-card img {display:block;width:100%;aspect-ratio:2.65;object-fit:cover;background:var(--tint)}
+#og-journal .tag-card span {display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+#og-journal .tag-card strong {font-size:18px;font-weight:600;overflow-wrap:anywhere}
+#og-journal .tag-card small {white-space:nowrap;color:var(--muted);font:12px/1.5 var(--mono)}
+@media(hover:hover){#og-journal .tag-card:hover {transform:translateY(-2px);color:var(--link)}}
+@media(prefers-reduced-motion:reduce){#og-journal .tag-card {transition:none}}
+@media(hover:hover) and (pointer:fine){
+ html {--stellar-pointer:url("cursor-ink.svg") 2 2;cursor:var(--stellar-pointer),auto}
+ html[data-palette="graphite"] {--stellar-pointer:url("cursor-paper.svg") 2 2}
+ #og-journal.inner :is(a,button,summary,label,input[type="radio"]) {cursor:var(--stellar-pointer),pointer}
+ #og-journal.inner :is(input:not([type="radio"]),textarea,[contenteditable="true"]) {cursor:text}
+}
+@media(max-width:560px){
+ #og-journal .month-block {grid-template-columns:1fr;gap:12px}
+ #og-journal .tag-gallery {gap:20px 12px}
+ #og-journal .tag-card img {aspect-ratio:1.8}
+ #og-journal .tag-card strong {font-size:16px}
+}
+@media(max-width:800px){
+ #og-journal .inner .nav,#og-journal.inner .nav {flex-wrap:wrap;padding:12px 0 6px;gap:0}
+ #og-journal .inner-top {width:100%;justify-content:space-between;gap:8px}
+ #og-journal .inner-top .navlinks {flex:1;justify-content:space-between;gap:4px}
+ #og-journal .page-grid {position:relative;display:block;padding-top:30px}
+ #og-journal .rail {position:static}
+ #og-journal .forest-orb {position:absolute;top:12px;right:0;width:clamp(50px,13vw,95px);opacity:.43}
+ #og-journal .page-title {padding-right:clamp(40px,13vw,90px)}
+ #og-journal .toc {margin-top:32px}
+ #og-journal .page-grid:has(.prose) {display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+ #og-journal .page-grid:has(.prose) :is(.main-column,article) {display:contents}
+ #og-journal .page-grid:has(.prose) .prose {order:1}
+ #og-journal .page-grid:has(.prose) .toc {margin:0 0 22px}
+}
