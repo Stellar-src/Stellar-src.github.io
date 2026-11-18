@@ -215,7 +215,9 @@ def build():
         f'<small>{escape(p.category)}</small><strong>{escape(p.title)}</strong><span class="arr" aria-hidden="true">↗</span></a>'
         f'{post_meta(p,"")}<p class="post-summary">{escape(p.summary)}</p></article>' for p in posts
     ) or '<p>还没有手记。</p>'
-    html = re.sub(r'(<small>Field notes</small></div>).*?(<details class="credit">)',lambda m:m[1]+'\n'+entries+'\n'+m[2],html,flags=re.S)
+    html, count = re.subn(r'(<!-- recent-notes:start -->).*?(<!-- recent-notes:end -->)',lambda m:m[1]+'\n'+entries+'\n'+m[2],html,flags=re.S)
+    if count != 1:
+        raise ValueError('index.html must contain one recent-notes section')
     html = re.sub(r'<dialog\b.*?</dialog>', '', html, flags=re.S)
     home.write_text(html,encoding='utf-8')
 

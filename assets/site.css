@@ -30,7 +30,8 @@ body{background:#f2f1eb}html[data-theme="dark"] body{background:#202834}
 #og-journal .title{font:900 clamp(100px,18.7cqw,265px)/.78 "Arial Narrow",Impact,"Arial Black",sans-serif;letter-spacing:-.057em;display:flex;align-items:baseline;margin:23px 0 22px;white-space:nowrap}
 #og-journal .title i{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.095em;margin-left:.03em}
 #og-journal .title b{color:var(--orange);font-size:.65em;letter-spacing:0}
-#og-journal .intro{font-family:"Songti SC","SimSun",serif;font-size:clamp(19px,2.05cqw,30px);letter-spacing:.14em;text-shadow:0 1px 7px #121212}
+@font-face{font-family:"Ma Shan Zheng";src:url("./ma-shan-zheng-intro.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+#og-journal .intro{font-family:"Ma Shan Zheng","Kaiti SC","KaiTi",serif;font-size:clamp(21px,2.2cqw,32px);line-height:1.5;letter-spacing:.065em;text-shadow:0 1px 7px #121212}
 #og-journal .enterword{display:inline-block;animation:ogOpen .78s cubic-bezier(.18,.75,.17,1) both}
 #og-journal .enterword:nth-child(2){animation-delay:.1s}
 @keyframes ogOpen{from{opacity:0;transform:translateY(.22em);clip-path:inset(0 0 85% 0)}to{opacity:1;transform:none;clip-path:inset(-20% -25% -30% -10%)}}
@@ -62,7 +63,6 @@ body{background:#f2f1eb}html[data-theme="dark"] body{background:#202834}
 #og-journal .entry strong{font-size:clamp(18px,2.1cqw,28px);font-weight:600}
 #og-journal .entry .arr{font:28px Georgia,serif;text-align:right;transition:transform .16s}
 #og-journal .entry:hover .arr{transform:translate(2px,-2px);color:#ab3818}
-#og-journal .credit{margin-top:22px;color:#55584f;font-size:12px}
 #og-journal dialog{color:#20231e;border:0;padding:0;background:var(--paper);width:min(610px,90%);max-height:84dvh;box-shadow:0 15px 90px #0006}
 #og-journal dialog::backdrop{background:#111617bf}
 #og-journal .reading{padding:clamp(22px,4cqw,42px)}
@@ -106,7 +106,7 @@ body{background:#f2f1eb}html[data-theme="dark"] body{background:#202834}
 #og-journal .recent-note .post-meta a:hover {text-decoration:underline}
 #og-journal .recent-note .post-summary {font-size:15px;color:var(--subtle);line-height:1.75}
 @container(min-width:601px){#og-journal .recent-note :is(.post-meta,.post-summary) {margin-left:115px}}
-#og-journal .entry small,#og-journal .credit {color:var(--subtle);transition:color var(--blend) var(--ease)}
+#og-journal .entry small {color:var(--subtle);transition:color var(--blend) var(--ease)}
 #og-journal .reading .category,#og-journal .entry:hover .arr {color:var(--warm-ink)}
 #og-journal .cover-foot {display:grid;grid-template-columns:1fr auto 1fr}
 #og-journal .read-index {justify-self:start}
