@@ -30,10 +30,21 @@ body {background:var(--page)}
 #og-journal .friend-list a {display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 20px;padding:16px 0;border-bottom:1px solid var(--line);text-decoration:none;overflow-wrap:anywhere}
 #og-journal .friend-list a span {color:var(--link);font:14px/1.6 var(--mono)}
 #og-journal .friend-list a:hover strong {text-decoration:underline;text-underline-offset:.2em}
+@font-face {
+  font-family:"WenKai About";
+  src:url("./wenkai-about.woff2") format("woff2");
+  font-display:swap;
+}
+@font-face {
+  font-family:"WenKai Common";
+  src:url("./wenkai-common.woff2") format("woff2");
+  font-display:swap;
+}
 #og-journal .about-copy {
-  font-family:Georgia,"Songti SC","Noto Serif CJK SC","Source Han Serif SC","Noto Serif SC","SimSun",serif;
-  font-size:clamp(17px,1.4vw,20px);
-  line-height:1.85;
+  font-family:"WenKai About","WenKai Common","LXGW WenKai","Kaiti SC","KaiTi",serif;
+  font-size:clamp(19px,1.5vw,22px);
+  line-height:1.9;
+  letter-spacing:.025em;
   overflow-wrap:anywhere;
 }
 #og-journal .about-copy :is(p,h2,h3,blockquote) {margin:1em 0}
